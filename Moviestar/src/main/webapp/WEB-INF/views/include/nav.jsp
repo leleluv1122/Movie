@@ -62,11 +62,19 @@
 
 			<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
 				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-					<li class="nav-item"><a class="nav-link" href="#"
+					<li class="nav-item"><a class="nav-link" href="/movies"
 						style="font-family: 'Do Hyeon', sans-serif; font-size: 2.5em; margin-left: 90px;">영화</a></li>
-					<li class="nav-item"><a class="nav-link" href="#"
-						style="font-family: 'Do Hyeon', sans-serif; font-size: 2.5em; margin-left: 40px;">예매</a></li>
-					<li class="nav-item"><a class="nav-link" href="#"
+					<sec:authorize access="authenticated">
+						<li class="nav-item"><a class="nav-link" href="/user/tickets"
+							style="font-family: 'Do Hyeon', sans-serif; font-size: 2.5em; margin-left: 40px;">예매</a></li>
+					</sec:authorize>
+
+					<sec:authorize access="not authenticated">
+						<li class="nav-item"><a class="nav-link" href="/movies/login"
+							style="font-family: 'Do Hyeon', sans-serif; font-size: 2.5em; margin-left: 40px;">예매</a></li>
+					</sec:authorize>
+					<li class="nav-item"><a class="nav-link"
+						href="/movies/theater"
 						style="font-family: 'Do Hyeon', sans-serif; font-size: 2.5em; margin-left: 40px;">극장</a></li>
 					<li class="nav-item"><a class="nav-link" href="#"
 						style="font-family: 'Do Hyeon', sans-serif; font-size: 2.5em; margin-left: 40px;">이벤트</a></li>

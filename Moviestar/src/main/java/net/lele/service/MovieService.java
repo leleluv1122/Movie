@@ -1,5 +1,7 @@
 package net.lele.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +21,16 @@ public class MovieService {
 		mo.setGenre(m.getGenre());
 		mo.setReleases(m.getReleases());
 		mo.setTitle(m.getTitle());
+		mo.setRunningtime(m.getRunningtime());
 		mo.setImagetitle(m.getImagetitle());
 		movieRepository.save(mo);
 
 		int i = mo.getId();
 
 		return i;
+	}
+	
+	public List<Movie> findAll(){
+		return movieRepository.findAll();
 	}
 }

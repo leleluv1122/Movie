@@ -20,4 +20,8 @@ public class Movie_imageService {
 		
 		mir.save(mm);
 	}
+	
+	public Movie_image findByMovieidgroup() {
+		return mir.findByMovieidgroup();
+	}
 }

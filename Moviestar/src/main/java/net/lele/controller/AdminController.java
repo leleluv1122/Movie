@@ -22,7 +22,7 @@ import net.lele.utils.UploadFileUtils;
 
 @Controller
 public class AdminController {
-	private String uploadPath = "D:/MovieStar/Moviestar/src/main/resources/static/images/";
+	private String uploadPath = "D:/Movie/Moviestar/src/main/resources/static/images/";
 
 	@Autowired
 	MovieRepository movieRepository;
@@ -55,6 +55,8 @@ public class AdminController {
 		Date releases = Date.valueOf(r);
 		String detail = request.getParameter("detail");
 		String genre = request.getParameter("genre");
+		String run = request.getParameter("runningtime");
+		int runningtime = Integer.parseInt(run);
 
 		m.setActor(actor);
 		m.setDetail(detail);
@@ -62,6 +64,7 @@ public class AdminController {
 		m.setGenre(genre);
 		m.setReleases(releases);
 		m.setTitle(title);
+		m.setRunningtime(runningtime);
 		MultipartFile mf = mtfRequest.getFile("imagetitle");
 
 		String originFileName = mf.getOriginalFilename();

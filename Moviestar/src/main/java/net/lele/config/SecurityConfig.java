@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             // 로그인 페이지에서 '로그인' 버튼이 눌럿을때 요청할 URL 설정
             .failureUrl("/movies/login?error")
             // 로그인이 실패했을 때 redirect URL 설정
-            .defaultSuccessUrl("/movies/index", true)
+            .defaultSuccessUrl("/", true)
             // 로그인이 성공했을 때 redirect URL 설정
             .usernameParameter("loginId")
             .passwordParameter("passwd");
@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.logout() //로그아웃 설정 시작
             .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout_processing"))
             // 로그아웃 버튼이나 링크를 눌렀을 때 요청할 URL 설정
-            .logoutSuccessUrl("/movies/index")
+            .logoutSuccessUrl("/")
             //로그아웃된 후  redirect URL 설정
             .invalidateHttpSession(true);
         	// 로그아웃할 때 session에 들어있는 데이터를 전부 지우라는 설정

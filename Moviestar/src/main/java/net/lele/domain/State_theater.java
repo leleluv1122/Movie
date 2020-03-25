@@ -1,27 +1,24 @@
 package net.lele.domain;
 
-import java.sql.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.Data;
 
 @Data
 @Entity
-public class Movie {
+public class State_theater {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
-
-	String title;
-	String director;
-	String actor;
-	Date releases;
-	String detail;
-	String genre;
-	String imagetitle;
-	int runningtime;
+	
+	@ManyToOne
+	@JoinColumn(name = "stateid")
+	State state;
+	
+	String name;
 }

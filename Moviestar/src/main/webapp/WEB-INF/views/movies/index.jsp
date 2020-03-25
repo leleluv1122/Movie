@@ -83,6 +83,6 @@ body {
 			</sec:authorize>
 		</div>
 	</div>
-	<%-- <%@ include file="../include/bottom.jsp"%> --%>
+	<%@ include file="../include/bottom.jsp"%>
 </body>
 </html>

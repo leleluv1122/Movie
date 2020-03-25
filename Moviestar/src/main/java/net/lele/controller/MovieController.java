@@ -10,14 +10,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import net.lele.model.UserRegistrationModel;
+import net.lele.service.MovieService;
+import net.lele.service.Movie_imageService;
+import net.lele.service.StateService;
+import net.lele.service.State_theaterService;
 import net.lele.service.UserService;
 
 @Controller
 public class MovieController {
 	@Autowired
 	UserService userService;
+	@Autowired
+	MovieService movieService;
+	@Autowired
+	Movie_imageService mis;
+	@Autowired
+	StateService stateService;
+	@Autowired
+	State_theaterService sts;
 	
-	@RequestMapping({ "/", "movies/index" })
+	@RequestMapping("/")
 	public String index(Model model) throws Exception {
 		
 		return "movies/index";
@@ -43,5 +55,18 @@ public class MovieController {
 		 */
 		userService.save(userModel);
 		return "redirect:index";
+	}
+	
+	@RequestMapping("movies")
+	public String movies(Model model) {
+		model.addAttribute("movies", movieService.findAll());		
+		return "movies";
+	}
+	
+	@RequestMapping("movies/theater")
+	public String theater(Model model) {
+		model.addAttribute("state", stateService.findAll());
+		model.addAttribute("st", sts.findAll());
+		return "movies/theater";
 	}
 }

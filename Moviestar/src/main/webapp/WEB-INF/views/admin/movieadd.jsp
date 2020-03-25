@@ -77,6 +77,11 @@ body {
 					required />
 			</div>
 			<div class="form-group">
+				<label for="runningtime">영화 러닝타임</label><input type="text"
+					class="form-control w200" name="runningtime"
+					placeholder="영화의 러닝타임을 입력하세요" required />
+			</div>
+			<div class="form-group">
 				<label for="file">영화 메인 사진</label> <input type="file"
 					name="imagetitle" required />
 			</div>
@@ -93,6 +98,6 @@ body {
 	<br>
 	<br>
 	<br>
-	<%-- <%@ include file="../include/bottom.jsp"%> --%>
+	<%@ include file="../include/bottom.jsp"%>
 </body>
 </html>

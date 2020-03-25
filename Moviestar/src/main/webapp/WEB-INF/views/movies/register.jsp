@@ -89,6 +89,6 @@ $(function() {
 		</form:form>
 	</div>
 
-	<%-- <%@ include file="../include/bottom.jsp"%> --%>
+	<%@ include file="../include/bottom.jsp"%>
 </body>
 </html>
