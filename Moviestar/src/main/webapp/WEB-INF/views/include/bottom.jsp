@@ -19,7 +19,7 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap"
 	rel="stylesheet">
-<link rel="stylesheet" href="/res/css/font.css">
+<!-- <link rel="stylesheet" href="/res/css/font.css"> -->
 </head>
 <body>
 	<div class=container>

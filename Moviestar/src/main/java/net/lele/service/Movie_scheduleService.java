@@ -16,4 +16,8 @@ public class Movie_scheduleService {
 	public List<Movie_schedule> findAll(){
 		return msr.findAll();
 	}
+	
+	public List<Movie_schedule> findByStId(int id){
+		return msr.findByStId(id);
+	}
 }

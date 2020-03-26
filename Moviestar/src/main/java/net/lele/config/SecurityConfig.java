@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests() //권한 설정 시작    /   앞>>>>뒤 - 우선순위
 			.antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")   /* .access("ROLE_ADMIN") */
             //admin/** 패턴은 ROLE_ADMIN권한소유자만 요청가능 아니면 거부당함
-            .antMatchers("/movies/**").permitAll()
+            .antMatchers("/movies/**", "/support/**").permitAll()
             // 로그인하지 않은 사용자도 허용
             .antMatchers("/").permitAll()
             // 모든 사용자 ㅇㅅㅇ

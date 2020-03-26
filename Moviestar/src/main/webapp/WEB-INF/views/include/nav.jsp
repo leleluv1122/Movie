@@ -25,13 +25,15 @@
 .abc {
 	height: 30px;
 	weight: 100%;
-	margin-left: 80%;
+	margin-left: 70%;
 }
 </style>
 </head>
 <body>
 	<div class="container">
 		<div class="abc">
+			<a href="/support"
+				style="color: gray; font-size: 1.5em; font-family: 'Do Hyeon', sans-serif; margin-left: 10px;">고객센터</a>
 			<sec:authorize access="not authenticated">
 				<a href="/movies/login"
 					style="color: gray; font-size: 1.5em; font-family: 'Do Hyeon', sans-serif; margin-left: 10px;">로그인</a>

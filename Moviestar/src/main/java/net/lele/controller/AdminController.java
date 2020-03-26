@@ -9,13 +9,17 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import net.lele.domain.Faq;
 import net.lele.domain.Movie;
 import net.lele.domain.Movie_image;
 import net.lele.repository.MovieRepository;
+import net.lele.service.FaqService;
 import net.lele.service.MovieService;
 import net.lele.service.Movie_imageService;
 import net.lele.utils.UploadFileUtils;
@@ -30,11 +34,25 @@ public class AdminController {
 	MovieService movieService;
 	@Autowired
 	Movie_imageService movie_imageService;
+	@Autowired
+	FaqService faqService;
 
 	@RequestMapping("/admin/index")
 	public String index(Model model) {
 
 		return "admin/index";
+	}
+	
+	@RequestMapping(value = "/admin/faqwrite", method = RequestMethod.GET)
+	public String faqwrite(Model model, Faq faq) {
+		
+		return "admin/faqwrite";
+	}
+	
+	@RequestMapping(value="/admin/faqwrite", method=RequestMethod.POST)
+	public String faqwrite(Model model, Faq faq, BindingResult bindingResult) throws Exception{
+		faqService.save(faq);
+		return "redirect:/admin/index";
 	}
 
 	@RequestMapping("/admin/movieadd")

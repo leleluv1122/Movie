@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE>
 <html>
 <head>
@@ -16,11 +17,8 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<link
-	href="https://fonts.googleapis.com/css?family=Cute+Font|Poor+Story&display=swap&subset=korean"
-	rel="stylesheet">
 <link rel="stylesheet" href="/res/css/font.css">
-<title>관리자페이지</title>
+<title>자주묻는질문 작성</title>
 <style>
 body {
 	font-family: 'Do Hyeon', sans-serif;
@@ -31,10 +29,21 @@ body {
 	<%@ include file="../include/nav.jsp"%>
 	<div class="container">
 		<br><br>
-		<h1 style="font-family: 'Do Hyeon', sans-serif;">관리자 페이지</h1><br>
-		<a href="/admin/movieadd" style="color:gray;font-size:2em;">1. 영화 등록</a><br>
-		<a href="/admin/faqwrite" style="color:gray;font-size:2em;">2. 자주묻는질문 등록</a><br>
-		
+		<form:form method="post" modelAttribute="faq" autocomplete="off">
+			<div class="form-group">
+				<label>질문:</label>
+				<form:input path="question" class="form-control w400"
+					required="required" />
+			</div>
+			<div class="form-group">
+				<label>답변:</label>
+				<form:input path="answer" class="form-control w4h2"
+					required="required" />
+			</div>
+			<button type="submit" style="background-color: #F3969A;"
+				onclick="return confirm('작성 하시겠습니까?')" class="btn">작성</button>
+		</form:form>
+
 	</div>
 	<br>
 	<br>
