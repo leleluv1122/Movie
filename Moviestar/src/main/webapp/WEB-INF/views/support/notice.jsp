@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,12 +19,12 @@
 <link
 	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet" media="screen">
-	
+
 <link
 	href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap"
 	rel="stylesheet">
 <script src="/res/js/jqueryfaq.js"></script>
-<title>자주 묻는 질문</title>
+<title>공지사항</title>
 <style>
 li {
 	list-style: none;
@@ -34,74 +35,72 @@ body {
 }
 
 h1 {
-	margin-left:50px;
-	font-size:2em;
-	margin-bottom:50px;
+	margin-left: 50px;
+	font-size: 2em;
+	margin-bottom: 50px;
 }
 </style>
-<script>
-	$(function() {
-		$.fn.extend({
-			faq : function() {
-				var ts = $(this);
-				$.each(ts, function(i, o) {
-					$("button", o).on("click", faqHanddler);
-					function faqHanddler() {
-						if ($(this).parent().next().is(":hidden")) {
-							$("li>div:visible", o).hide();
-							$(this).parent().next().show();
-						} else {
-							$("li>div:visible", o).hide();
-						}
-					}
-				});
-			}
-		});
-
-		$(".faq").faq();
-	});
-</script>
 </head>
 <%@ include file="../include/nav.jsp"%>
 <body>
-	
+
 
 
 	<div class="faq container">
-		
+
 		<div>
 			<nav class="navbar navbar-expand-lg navbar-light">
 				<ul class="navbar-nav sideways">
 					<li class="nav-item"><a class="nav-link" href="/support"
-						title="고객센터 홈" style="font-size:1.6em;" >고객센터 홈</a></li>
+						title="고객센터 홈" style="font-size: 1.6em;">고객센터 홈</a></li>
 					<li class="nav-item"><a class="nav-link" href="/support/faq"
-						title="자주 묻는 질문" style="font-size:2em;margin-left:10px;"><b>자주 묻는 질문</b></a></li>
+						title="자주 묻는 질문" style="font-size: 1.6em; margin-left: 10px;">자주
+							묻는 질문</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="/support/notice" title="공지사항" style="font-size:1.6em;margin-left:10px;">공지사항</a></li>
+						href="/support/notice" title="공지사항"
+						style="font-size: 2em; margin-left: 10px;"><b>공지사항</b></a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="/support/inquiry" title="1:1문의" style="font-size:1.6em;margin-left:10px;">1:1문의</a></li>
+						href="/support/inquiry" title="1:1문의"
+						style="font-size: 1.6em; margin-left: 10px;">1:1문의</a></li>
 				</ul>
 			</nav>
 		</div>
-	
-		<h1>자주 묻는 질문</h1>
-		<ul>
-			<c:forEach var="f" items="${faq}">
-				<li>
-					<p>
-						<button>${f.question }</button>
-					</p>
-					<div>
-						<div class="cont">${f.answer }</div>
-					</div>
-				</li>
-			</c:forEach>
-		</ul>
+		<table class="table table-hover"
+			style="width: 90%; margin-left: auto; margin-right: auto; font-size: 15px;">
+			<colgroup>
+				<col width="12%" />
+				<col width="16%" />
+				<col width="50%" />
+				<col width="*" />
+			</colgroup>
+			<thead class="table-active">
+				<tr style="text-align: center;">
+					<th>No</th>
+					<th>구분</th>
+					<th>제목</th>
+					<th>작성일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="n" items="${notice}">
+
+					<tr style="text-align: center; cursor: pointer;"
+						onclick="location.href='/support/notice/detail/${n.id}'">
+						<td>${n.id}</td>
+						<td>${n.sort}</td>
+						<td style="text-align: left;">${n.title }</td>
+						<td><fmt:formatDate value="${n.writetime}"
+								pattern="yyyy.MM.dd" /></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+
 	</div>
 
 
 
-	
+
 </body>
 <%@ include file="../include/bottom.jsp"%>
 </html>

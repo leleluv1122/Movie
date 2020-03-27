@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE>
 <html>
 <head>
@@ -20,7 +21,7 @@
 	href="https://fonts.googleapis.com/css?family=Cute+Font|Poor+Story&display=swap&subset=korean"
 	rel="stylesheet">
 <link rel="stylesheet" href="/res/css/font.css">
-<title>관리자페이지</title>
+<title>공지사항 작성</title>
 <style>
 body {
 	font-family: 'Do Hyeon', sans-serif;
@@ -30,11 +31,25 @@ body {
 <body>
 	<%@ include file="../include/nav.jsp"%>
 	<div class="container">
-		<br><br>
-		<h1 style="font-family: 'Do Hyeon', sans-serif;"><b>관리자 페이지</b></h1><br>
-		<a href="/admin/movieadd" style="color:gray;font-size:2em;">1. 영화 등록</a><br>
-		<a href="/admin/faqwrite" style="color:gray;font-size:2em;">2. 자주묻는질문 등록</a><br>
-		<a href="/admin/noticewrite" style="color:gray;font-size:2em;">3. 공지사항 등록</a><br>
+		<form:form method="post" modelAttribute="notice" autocomplete="off">
+			<div class="form-group">
+				<label>제목</label>
+				<form:input path="title" class="form-control w400"
+					required="required" />
+			</div>
+			<div class="forn-group">
+				<label>구분</label>
+				<form:input path="sort" class="form-control w400"
+					required="required" />
+			</div>
+			<div class="form-group">
+				<label>내용</label>
+				<form:input path="detail" class="form-control w4h2"
+					required="required" />
+			</div>
+			<button type="submit" style="background-color: #F3969A;"
+				onclick="return confirm('작성 하시겠습니까?')" class="btn">작성</button>
+		</form:form>
 		
 	</div>
 	<br>

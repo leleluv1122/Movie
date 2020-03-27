@@ -18,10 +18,12 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import net.lele.domain.Faq;
 import net.lele.domain.Movie;
 import net.lele.domain.Movie_image;
+import net.lele.domain.Notice;
 import net.lele.repository.MovieRepository;
 import net.lele.service.FaqService;
 import net.lele.service.MovieService;
 import net.lele.service.Movie_imageService;
+import net.lele.service.NoticeService;
 import net.lele.utils.UploadFileUtils;
 
 @Controller
@@ -36,6 +38,8 @@ public class AdminController {
 	Movie_imageService movie_imageService;
 	@Autowired
 	FaqService faqService;
+	@Autowired
+	NoticeService noticeService;
 
 	@RequestMapping("/admin/index")
 	public String index(Model model) {
@@ -54,11 +58,25 @@ public class AdminController {
 		faqService.save(faq);
 		return "redirect:/admin/index";
 	}
+	
+	@RequestMapping(value = "/admin/noticewrite", method = RequestMethod.GET)
+	public String noticewrite(Model model, Notice notice) {
+		
+		return "admin/noticewrite";
+	}
+	
+	@RequestMapping(value="/admin/noticewrite", method=RequestMethod.POST)
+	public String noticewrite(Model model, Notice notice, BindingResult bindingResult) throws Exception{
+		noticeService.save(notice);
+		return "redirect:/admin/index";
+	}
 
 	@RequestMapping("/admin/movieadd")
 	public String movieadd(Model model) {
 		return "admin/movieadd";
 	}
+	
+	
 
 	@RequestMapping(value = "admin/fileinsert")
 	public String fileinsert(HttpServletRequest request, MultipartHttpServletRequest mtfRequest, Model model)

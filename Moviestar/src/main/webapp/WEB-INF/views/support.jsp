@@ -23,9 +23,9 @@
 body {
 	font-family: 'Do Hyeon', sans-serif;
 }
-.fimg{
-	width:347px;
-	height:208px;
+.fimg {
+	width: 347px;
+	height: 208px;
 }
 </style>
 </head>
@@ -33,18 +33,24 @@ body {
 	<%@ include file="include/nav.jsp"%>
 	<div class="container">
 		<br> <br>
-		<!-- <table>
-			<tr>
-				<td><a style="cursor:pointer;"
-					onclick="window.open('/support/faq','자주하는질문','width=500,height=500,location=no,status=no,scrollbars=yes');">자주
-						하는 질문</a></td>
-				<td></td>
-			</tr>
-		</table> -->
-		<a href="/support/faq"><img src="/images/support/faq.jpg" class="fimg"></a>
-		
-		<a href="#"><img src="/images/support/1_1mon.jpg" class="fimg"></a>
+		<div>
+			<nav class="navbar navbar-expand-lg navbar-light">
+				<ul class="navbar-nav sideways">
+					<li class="nav-item"><a class="nav-link" href="/support"
+						title="고객센터 홈" style="font-size:2em;" ><b>고객센터 홈</b></a></li>
+					<li class="nav-item"><a class="nav-link" href="/support/faq"
+						title="자주 묻는 질문" style="font-size:1.6em;margin-left:10px;">자주 묻는 질문</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/support/notice" title="공지사항" style="font-size:1.6em;margin-left:10px;">공지사항</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/support/inquiry" title="1:1문의" style="font-size:1.6em;margin-left:10px;">1:1문의</a></li>
+				</ul>
+			</nav>
+		</div>
 
+		<a href="/support/faq"><img src="/images/support/faq.jpg"
+			class="fimg"></a> <a href="/support/inquiry"><img
+			src="/images/support/1_1mon.jpg" class="fimg"></a>
 	</div>
 	<br>
 	<br>
