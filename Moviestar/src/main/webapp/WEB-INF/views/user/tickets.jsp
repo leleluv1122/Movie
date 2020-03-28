@@ -28,6 +28,7 @@
 
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+<link rel="stylesheet" href="/res/css/font.css">
 <link
 	href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap"
 	rel="stylesheet">
@@ -111,11 +112,20 @@ div .mvmv {
 						</div>
 						<select id="movie" name="movie" class="form-control w300"
 							required="required">
-							<option value="">-----------영화를 골라주세요-----------</option>
+							<option value="" selected disabled>-----------영화를 골라주세요-----------</option>
 							<c:forEach var="m" items="${movies}">
 								<option value="${m.id}">${m.title}</option>
 							</c:forEach>
 						</select>
+						<%-- <c:if test="${m.id=='4'}">selected</c:if>  --%>
+						<!-- <script>
+						$(function() {
+							$('#movie').change(
+								function() {
+									
+								});
+						})
+						</script> -->
 
 					</div>
 
@@ -130,93 +140,113 @@ div .mvmv {
 					<div class="form-group">
 						<select id="state" name="state" class="form-control w300"
 							required="required">
-							<option value="">-----------지역을 골라주세요-----------</option>
+							<option value="" selected disabled>-----------지역을 골라주세요-----------</option>
 							<c:forEach var="s" items="${state}">
 								<option value="${s.id}">${s.name}</option>
 							</c:forEach>
 						</select>
 					</div>
-					
+
 
 					<div class="slab">
 						<label style="font-size: 1.8em;">극장</label>
 					</div>
 					<div class="theater">
-					<div class="form-group">
-						<select id="stheater" name="stheater" class="form-control w300"
-							required="required">
-							<option value="">-----------극장을 골라주세요-----------</option>
-						</select>
-						<script>
-							$(function() {
-								$('#state').change(
-									function() {
-										var state = $(this).serialize();
-										$.ajax({
-											url : '/user/sth',
-											type : 'post',
-											data : state,
-											success : function(data) {
-												var searchArr = $('#stheater').find("option");
-												searchArr += "<option value=''>-----------극장을 골라주세요-----------</option>";
-												for (var i in data) {
-													var $id = data[i].id;
-													var $name = data[i].name;
-													
+						<div class="form-group">
+							<select id="stheater" name="stheater" class="form-control w300"
+								required="required">
+								<option value="" selected disabled>-----------극장을 골라주세요-----------</option>
+							</select>
+							<script>
+								$(function() {
+									$('#state').change(
+										function() {
+											var state = $(this).serialize();
+											$.ajax({
+												url : '/user/sth',
+												type : 'post',
+												data : state,
+												success : function(data) {
+													var searchArr = $('#stheater').find("option");
+													searchArr += "<option value=''>-----------극장을 골라주세요-----------</option>";
+													for ( var i in data) {
+														var $id = data[i].id;
+														var $name = data[i].name;
 
-													searchArr += "<option value=" +$id + ">"
-														+ $name + "</option>";
+														searchArr += "<option value=" +$id + ">"
+															+ $name + "</option>";
+													}
+													document.getElementById("stheater").innerHTML = searchArr;
 												}
-												document.getElementById("stheater").innerHTML = searchArr;
-											}
+											});
 										});
-								});
-							})
-						</script>
+								})
+							</script>
 						</div>
 					</div>
-					
+
 					<div class="slab">
 						<label style="font-size: 1.8em;">일정</label>
 					</div>
 					<div class="schedudu">
 						<select id="schedule" name="schedule" class="form-control w300"
 							required="required">
-							<option value="">-----------일정을 골라주세요-----------</option>
+							<option value="" selected disabled>-----------일정을 골라주세요-----------</option>
 						</select>
 					</div>
 					<script>
-							$(function() {
-								$('#stheater').change(
-									function() {
-										var theater = $(this).serialize();
-										$.ajax({
-											url : '/user/moviefind',
-											type : 'post',
-											data : theater,
-											success : function(data) {
-												var searchArr = $('#schedule').find("option");
-												searchArr += "<option value=''>-----------일정을 골라주세요-----------</option>";
-												for (var i in data) {
-													var $id = data[i].id;
-													var $startrunning = data[i].startrunning;
-													
-													
+						$(function() {
+							$('#stheater').change(
+							function() {
+								var theater = $(this).serialize();
+								$.ajax({
+									url : '/user/moviefind',
+									type : 'post',
+									data : theater,
+									success : function(data) {
+										var searchArr = $('#schedule').find("option");
+										/* var movie = ${"select[name='movie']"}.val(); */
+										/* var movie = document.getElementsByName('movie');
+										movie = movie.options[movie.selectedIndex].value; */
+										/* alert(movie); */
+										
+										searchArr += "<option value=''>-----------일정을 골라주세요-----------</option>";
+										for ( var i in data) {
+											var $id = data[i].id;
+											var $startrunning = data[i].startrunning;
 
-													searchArr += "<option value=" +$id + ">"
-														+ $startrunning + "</option>";
-												}
-												document.getElementById("schedule").innerHTML = searchArr;
+											searchArr += "<option value=" +$id + ">"
+												+ $startrunning + "</option>";
 											}
-										});
-								});
-							})
-						</script>
-						</div>
-					</div>
+											document.getElementById("schedule").innerHTML = searchArr;
+										}
+									});
+							});
+						})
+					</script>
+					
+					<!-- <script>
+					$(function() {
+						$('#schedule').change(
+						function() {
+							/* var theater = $(this).serialize(); */
+							var stheater = document.getElementsByName('stheater').value;
+							alert(stheater);
+							$.ajax({
+								url : '/user/seatfind',
+								type : 'post',
+								data : stheater,
+								success : function(data) {
+									
+								}
+							});
+						});
+					})
+					</script> -->
+					
+				</div>
 
-
-					<%-- <div class="mvmv btn-group-vertical btn-group-toggle"
+				<%-- <div class="mvmv btn-group-vertical btn-group-toggle"
 						data-toggle="buttons">
 						<div class="slab">
 							<label style="font-size: 1.8em; margin-left: 60px;">지역</label>
@@ -229,10 +259,14 @@ div .mvmv {
 						</c:forEach>
 					</div> --%>
 
-				</div>
 				<!-- <div class="smovie">
 					<p>영화선택</p>
 				</div> -->
+				
+				
+				
+				
+				
 			</form>
 		</div>
 	</div>

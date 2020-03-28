@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.lele.domain.Movie_schedule;
+import net.lele.domain.Seat;
 import net.lele.domain.State_theater;
 import net.lele.service.MovieService;
 import net.lele.service.Movie_imageService;
 import net.lele.service.Movie_scheduleService;
+import net.lele.service.SeatService;
 import net.lele.service.StateService;
 import net.lele.service.State_theaterService;
 import net.lele.service.UserService;
@@ -32,6 +34,8 @@ public class UserController {
 	State_theaterService sts;
 	@Autowired
 	Movie_scheduleService mss;
+	@Autowired
+	SeatService seatService;
 	
 	@RequestMapping("user/tickets")
 	public String tickets(Model model) throws Exception{
@@ -52,6 +56,12 @@ public class UserController {
 	@ResponseBody
 	public List<Movie_schedule> moviefind(@RequestParam int stheater, Model model){
 		return mss.findByStId(stheater);
+	}
+	
+	@RequestMapping("user/seatfind")
+	@ResponseBody
+	public Seat seatfind(@RequestParam int stheater) throws Exception{
+		return seatService.findByStId(stheater);
 	}
 	
 	
