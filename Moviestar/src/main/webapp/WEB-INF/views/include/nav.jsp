@@ -67,7 +67,7 @@
 					<li class="nav-item"><a class="nav-link" href="/movies"
 						style="font-family: 'Do Hyeon', sans-serif; font-size: 2.5em; margin-left: 90px;">영화</a></li>
 					<sec:authorize access="authenticated">
-						<li class="nav-item"><a class="nav-link" href="/user/tickets"
+						<li class="nav-item"><a class="nav-link" href="/user/tmovie"
 							style="font-family: 'Do Hyeon', sans-serif; font-size: 2.5em; margin-left: 40px;">예매</a></li>
 					</sec:authorize>
 

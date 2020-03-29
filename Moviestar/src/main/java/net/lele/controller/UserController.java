@@ -36,33 +36,36 @@ public class UserController {
 	Movie_scheduleService mss;
 	@Autowired
 	SeatService seatService;
-	
-	@RequestMapping("user/tickets")
-	public String tickets(Model model) throws Exception{
+
+	@RequestMapping("user/tmovie")
+	public String tickets(Model model) throws Exception {
 		model.addAttribute("movies", movieService.findAll());
-		model.addAttribute("state", stateService.findAll());
-		model.addAttribute("st", sts.findAll());
-		
-		return "user/tickets";
+
+		return "user/tmovie";
 	}
 	
+	@RequestMapping("user/tschedule")
+	public String tschedule(@RequestParam("movie") String movie, Model model) throws Exception{
+		model.addAttribute("state", stateService.findAll());
+		return "user/tschedule";
+	}
+
 	@RequestMapping("user/sth")
 	@ResponseBody
-	public List<State_theater> sth(@RequestParam int state, Model model){
+	public List<State_theater> sth(@RequestParam int state, Model model) {
 		return sts.findByStateId(state);
 	}
-	
+
 	@RequestMapping("user/moviefind")
 	@ResponseBody
-	public List<Movie_schedule> moviefind(@RequestParam int stheater, Model model){
+	public List<Movie_schedule> moviefind(@RequestParam int stheater, Model model) {
 		return mss.findByStId(stheater);
 	}
-	
+
 	@RequestMapping("user/seatfind")
 	@ResponseBody
-	public Seat seatfind(@RequestParam int stheater) throws Exception{
+	public Seat seatfind(@RequestParam int stheater) throws Exception {
 		return seatService.findByStId(stheater);
 	}
-	
-	
+
 }
