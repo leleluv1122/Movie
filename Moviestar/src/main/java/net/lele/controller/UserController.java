@@ -58,8 +58,8 @@ public class UserController {
 
 	@RequestMapping("user/moviefind")
 	@ResponseBody
-	public List<Movie_schedule> moviefind(@RequestParam int stheater, Model model) {
-		return mss.findByStId(stheater);
+	public List<Movie_schedule> moviefind(@RequestParam(value = "theater") int theater, @RequestParam(value = "movie") int movie , Model model) {
+		return mss.findByStIdAndMovieId(theater, movie);
 	}
 
 	@RequestMapping("user/seatfind")

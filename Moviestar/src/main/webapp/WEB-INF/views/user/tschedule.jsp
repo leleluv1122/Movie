@@ -33,6 +33,14 @@ div .mvmv {
 	margin-left: 50px;
 }
 </style>
+<script>
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+</script>
 </head>
 <body>
 	<%@ include file="../include/nav.jsp"%>
@@ -41,44 +49,95 @@ div .mvmv {
 	<div class="container">
 		<div class="mvmv btn-group-vertical btn-group-toggle"
 			data-toggle="buttons">
-			<div class="mlab">
-				<label style="font-size: 1.8em; margin-left: 50px;">지역</label>
-			</div>
-			<c:forEach var="s" items="${state}">
-				<label class="btn btn-primary movie"
-					style="font-size: 2em; background-color: #f2f0e5; color: gray;">
-					<input type="radio" class="radio" id="state" name="state" value="${s.id}" onclick="changes(this.value)">${s.name}
-					<script>
-										function changes(state) {
-											alert(state);
+			<div class="slab">
+						<label style="font-size: 1.8em;">지역</label>
+					</div>
+					<div class="form-group">
+						<select id="state" name="state" class="form-control w300"
+							required="required">
+							<option value="" selected disabled>-----------지역을 골라주세요-----------</option>
+							<c:forEach var="s" items="${state}">
+								<option value="${s.id}">${s.name}</option>
+							</c:forEach>
+						</select>
+					</div>
+
+
+					<div class="slab">
+						<label style="font-size: 1.8em;">극장</label>
+					</div>
+					<div class="theater">
+						<div class="form-group">
+							<select id="stheater" name="stheater" class="form-control w300"
+								required="required">
+								<option value="" selected disabled>-----------극장을 골라주세요-----------</option>
+							</select>
+							<script>
+								$(function() {
+									$('#state').change(
+										function() {
+											var state = $(this).serialize();
 											$.ajax({
 												url : '/user/sth',
 												type : 'post',
 												data : state,
 												success : function(data) {
-													var box;
+													var searchArr = $('#stheater').find("option");
+													searchArr += "<option value=''  selected disabled>-----------극장을 골라주세요-----------</option>";
 													for ( var i in data) {
 														var $id = data[i].id;
 														var $name = data[i].name;
-														
-														box += "<input type='radio' class='radio' name='state' value="
-															+ $id + ">" + $name;
+
+														searchArr += "<option value=" +$id + ">"
+															+ $name + "</option>";
 													}
-													$(".tttt").append(box);
+													document.getElementById("stheater").innerHTML = searchArr;
 												}
 											});
-										}
+										});
+								})
 							</script>
-				</label>
-			</c:forEach>
-		</div>
-		
-		<div class="mvmv btn-group-vertical btn-group-toggle"
-			data-toggle="buttons">
-			<div class="mlab">
-				<label style="font-size: 1.8em; margin-left: 50px;">극장</label>
-				<div class="tttt"></div>
-			</div>
+						</div>
+					</div>
+					
+					<div class="slab">
+						<label style="font-size: 1.8em;">일정</label>
+					</div>
+					<div class="schedudu">
+						<select id="schedule" name="schedule" class="form-control w300"
+							required="required">
+							<option value="" selected disabled>-----------일정을 골라주세요-----------</option>
+						</select>
+					</div>
+					<script>
+						$(function() {
+							$('#stheater').change(
+							function() {
+								var theater = $(this).serialize();
+								var movie = getParameterByName("movie");
+								
+								var param = theater + "&" + "movie" + "=" + movie;
+								$.ajax({
+									url : '/user/moviefind',
+									type : 'post',
+									data : param,
+									success : function(data) {
+										var searchArr = $('#schedule').find("option");
+										
+										searchArr += "<option value='' selected disabled>-----------일정을 골라주세요-----------</option>";
+										for ( var i in data) {
+											var $id = data[i].id;
+											var $startrunning = data[i].startrunning;
+
+											searchArr += "<option value=" +$id + ">"
+												+ $startrunning + "</option>";
+											}
+											document.getElementById("schedule").innerHTML = searchArr;
+										}
+									});
+							});
+						})
+					</script>
 			
 		</div>
 	</div>

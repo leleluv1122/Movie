@@ -24,6 +24,7 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap"
 	rel="stylesheet">
+
 <title>티켓 예매하기 - 영화 고르기</title>
 <style>
 body {
@@ -67,10 +68,11 @@ div .well {
 	<br>
 	<br>
 	<div class="container">
-		<form  action="/user/tschedule">
+		<!-- <form action="/user/tschedule"> -->
 			<c:forEach var="m" items="${movies}">
-				<div class="mv">
-					<input type="radio" name="movie" value="${m.id}" required style="margin-bottom:3px;">
+				<div class="mv" onclick="location.href='/user/tschedule?movie=${m.id}'">
+					<%-- <input type="radio" name="movie" value="${m.id}" required
+						style="margin-bottom: 3px;"> --%>
 					<div class="mv_img">
 						<img src="/images/${m.imagetitle}" class="mvimg">
 					</div>
@@ -93,8 +95,8 @@ div .well {
 					</div>
 				</div>
 			</c:forEach>
-			<button>다음 단계로</button>
-		</form>
+			<!-- <button>다음 단계로</button>
+		</form> -->
 	</div>
 	<%@ include file="../include/bottom.jsp"%>
 </body>
