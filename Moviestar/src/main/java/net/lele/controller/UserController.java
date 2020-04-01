@@ -58,7 +58,9 @@ public class UserController {
 
 	@RequestMapping("user/moviefind")
 	@ResponseBody
-	public List<Movie_schedule> moviefind(@RequestParam(value = "theater") int theater, @RequestParam(value = "movie") int movie , Model model) {
+	public List<Movie_schedule> moviefind(@RequestParam(value = "theater") String tt, 
+			@RequestParam(value = "movie") int movie , Model model) {
+		int theater = Integer.parseInt(tt.substring(9));
 		return mss.findByStIdAndMovieId(theater, movie);
 	}
 

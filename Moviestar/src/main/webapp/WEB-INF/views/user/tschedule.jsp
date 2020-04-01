@@ -29,17 +29,19 @@
 body {
 	font-family: 'Do Hyeon', sans-serif;
 }
+
 div .mvmv {
 	margin-left: 50px;
 }
 </style>
 <script>
-function getParameterByName(name) {
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-        results = regex.exec(location.search);
-    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}
+	function getParameterByName(name) {
+		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex
+				.exec(location.search);
+		return results === null ? "" : decodeURIComponent(results[1].replace(
+				/\+/g, " "));
+	}
 </script>
 </head>
 <body>
@@ -47,98 +49,99 @@ function getParameterByName(name) {
 	<br>
 	<br>
 	<div class="container">
-		<div class="mvmv btn-group-vertical btn-group-toggle"
-			data-toggle="buttons">
+		<div class="mvmv">
 			<div class="slab">
-						<label style="font-size: 1.8em;">지역</label>
-					</div>
-					<div class="form-group">
-						<select id="state" name="state" class="form-control w300"
-							required="required">
-							<option value="" selected disabled>-----------지역을 골라주세요-----------</option>
-							<c:forEach var="s" items="${state}">
-								<option value="${s.id}">${s.name}</option>
-							</c:forEach>
-						</select>
-					</div>
+				<label style="font-size: 1.8em;">지역</label>
+			</div>
+			<div class="form-group">
+				<select id="state" name="state" class="form-control w300"
+					required="required">
+					<option value="" selected disabled>-----------지역을
+						골라주세요-----------</option>
+					<c:forEach var="s" items="${state}">
+						<option value="${s.id}">${s.name}</option>
+					</c:forEach>
+				</select>
+			</div>
 
 
-					<div class="slab">
-						<label style="font-size: 1.8em;">극장</label>
-					</div>
-					<div class="theater">
-						<div class="form-group">
-							<select id="stheater" name="stheater" class="form-control w300"
-								required="required">
-								<option value="" selected disabled>-----------극장을 골라주세요-----------</option>
-							</select>
-							<script>
-								$(function() {
-									$('#state').change(
-										function() {
-											var state = $(this).serialize();
-											$.ajax({
-												url : '/user/sth',
-												type : 'post',
-												data : state,
-												success : function(data) {
-													var searchArr = $('#stheater').find("option");
-													searchArr += "<option value=''  selected disabled>-----------극장을 골라주세요-----------</option>";
-													for ( var i in data) {
-														var $id = data[i].id;
-														var $name = data[i].name;
-
-														searchArr += "<option value=" +$id + ">"
-															+ $name + "</option>";
-													}
-													document.getElementById("stheater").innerHTML = searchArr;
-												}
-											});
-										});
-								})
-							</script>
-						</div>
-					</div>
-					
-					<div class="slab">
-						<label style="font-size: 1.8em;">일정</label>
-					</div>
-					<div class="schedudu">
-						<select id="schedule" name="schedule" class="form-control w300"
-							required="required">
-							<option value="" selected disabled>-----------일정을 골라주세요-----------</option>
-						</select>
-					</div>
+			<div class="slab">
+				<label style="font-size: 1.8em;">극장</label>
+			</div>
+			<div class="theater">
+				<div class="form-group">
+					<select id="stheater" name="stheater" class="form-control w300"
+						required="required">
+						<option value="" selected disabled>-----------극장을
+							골라주세요-----------</option>
+					</select>
 					<script>
 						$(function() {
-							$('#stheater').change(
-							function() {
-								var theater = $(this).serialize();
-								var movie = getParameterByName("movie");
-								
-								var param = theater + "&" + "movie" + "=" + movie;
-								$.ajax({
-									url : '/user/moviefind',
-									type : 'post',
-									data : param,
-									success : function(data) {
-										var searchArr = $('#schedule').find("option");
-										
-										searchArr += "<option value='' selected disabled>-----------일정을 골라주세요-----------</option>";
-										for ( var i in data) {
-											var $id = data[i].id;
-											var $startrunning = data[i].startrunning;
+							$('#state').change(
+								function() {
+									var state = $(this).serialize();
+									$.ajax({
+										url : '/user/sth',
+										type : 'post',
+										data : state,
+										success : function(data) {
+											var searchArr = $('#stheater').find("option");
+											searchArr += "<option value=''  selected disabled>-----------극장을 골라주세요-----------</option>";
+											for ( var i in data) {
+												var $id = data[i].id;
+												var $name = data[i].name;
 
-											searchArr += "<option value=" +$id + ">"
-												+ $startrunning + "</option>";
+												searchArr += "<option value=" +$id + ">"
+													+ $name + "</option>";
 											}
-											document.getElementById("schedule").innerHTML = searchArr;
+											document.getElementById("stheater").innerHTML = searchArr;
 										}
 									});
-							});
+								});
 						})
 					</script>
-			
+				</div>
+			</div>
+
+			<div class="slab">
+				<label style="font-size: 1.8em;">일정</label>
+			</div>
+			<div class="schedudu">
+				<select id="schedule" name="schedule" class="form-control w300"
+					required="required">
+					<option value="" selected disabled>-----------일정을
+						골라주세요-----------</option>
+				</select>
+			</div>
+			<script>
+				$(function() {
+					$('#stheater').change(
+					function() {
+						var theater = $(this).serialize();
+						var movie = getParameterByName("movie");
+								
+						$.ajax({
+							url : '/user/moviefind',
+							type : 'post',
+							data : {"theater": theater, "movie": movie},
+							success : function(data) {
+								var searchArr = $('#schedule').find("option");
+										
+								searchArr += "<option value='' selected disabled>-----------일정을 골라주세요-----------</option>";
+								for ( var i in data) {
+									var $id = data[i].id;
+									var $startrunning = data[i].startrunning;
+
+									searchArr += "<option value=" +$id + ">"
+										+ $startrunning + "</option>";
+									}
+									document.getElementById("schedule").innerHTML = searchArr;
+								}
+							});
+					});
+				})
+			</script>
+
 		</div>
 	</div>
 	<%@ include file="../include/bottom.jsp"%>
