@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.lele.domain.Movie_schedule;
-import net.lele.domain.Seat;
 import net.lele.domain.State_theater;
 import net.lele.service.MovieService;
 import net.lele.service.Movie_imageService;
@@ -43,9 +42,9 @@ public class UserController {
 
 		return "user/tmovie";
 	}
-	
+
 	@RequestMapping("user/tschedule")
-	public String tschedule(@RequestParam("movie") String movie, Model model) throws Exception{
+	public String tschedule(@RequestParam("movie") String movie, Model model) throws Exception {
 		model.addAttribute("state", stateService.findAll());
 		return "user/tschedule";
 	}
@@ -58,16 +57,24 @@ public class UserController {
 
 	@RequestMapping("user/moviefind")
 	@ResponseBody
-	public List<Movie_schedule> moviefind(@RequestParam(value = "theater") String tt, 
-			@RequestParam(value = "movie") int movie , Model model) {
+	public List<Movie_schedule> moviefind(@RequestParam(value = "theater") String tt,
+			@RequestParam(value = "movie") int movie, Model model) {
 		int theater = Integer.parseInt(tt.substring(9));
 		return mss.findByStIdAndMovieId(theater, movie);
 	}
 
-	@RequestMapping("user/seatfind")
-	@ResponseBody
-	public Seat seatfind(@RequestParam int stheater) throws Exception {
-		return seatService.findByStId(stheater);
+	@RequestMapping("user/booking")
+	public String booking(@RequestParam("movie") String movie, @RequestParam("state") int state,
+			@RequestParam("stheater") int stheater, @RequestParam("schedule") int schedule, Model model) {
+		model.addAttribute("seat", seatService.findByStId(stheater));
+		return "user/booking";
 	}
+
+	/*
+	 * @RequestMapping("user/seatfind")
+	 * 
+	 * @ResponseBody public Seat seatfind(@RequestParam int stheater) throws
+	 * Exception { return seatService.findByStId(stheater); }
+	 */
 
 }
