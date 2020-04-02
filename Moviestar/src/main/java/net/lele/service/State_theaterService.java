@@ -20,4 +20,8 @@ public class State_theaterService {
 	public List<State_theater> findByStateId(int id){
 		return str.findByStateId(id);	
 	}
+	
+	public State_theater findById(int id) {
+		return str.findById(id);
+	}
 }

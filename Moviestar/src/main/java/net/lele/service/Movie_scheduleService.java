@@ -22,4 +22,8 @@ public class Movie_scheduleService {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		return msr.findByStIdAndMovieIdAndStartrunningAfter(st, mv, timestamp);
 	}
+	
+	public Movie_schedule findById(int id) {
+		return msr.findById(id);
+	}
 }

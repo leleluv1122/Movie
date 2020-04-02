@@ -60,4 +60,8 @@ public class UserService {
 		User user = createEntity(userModel);
 		userRepository.save(user);
 	}
+	
+	public User findById(int id) {
+		return userRepository.findById(id);
+	}
 }
