@@ -24,8 +24,8 @@ public class Reserve {
 	
 	String reservenum;
 	
-	int row;
-	int col;
+	int rownum;
+	int colnum;
 
 	@ManyToOne
 	@JoinColumn(name = "mscheduleid")

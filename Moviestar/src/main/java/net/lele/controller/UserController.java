@@ -45,6 +45,7 @@ public class UserController {
 	SeatService seatService;
 	@Autowired
 	ReserveService reserveService;
+	
 	DateUtil date = new DateUtil();
 
 	@RequestMapping("user/tmovie")
@@ -78,40 +79,46 @@ public class UserController {
 	public String booking(@RequestParam("movie") String movie, @RequestParam("state") int state,
 			@RequestParam("stheater") int stheater, @RequestParam("schedule") int schedule, Model model) {
 		model.addAttribute("seat", seatService.findByStId(stheater));
-
+		/* model.addAttribute("reserve", reserveService.findByMsId(schedule)); */
 		model.addAttribute("s", mss.findById(schedule));
 		return "user/booking";
 	}
 
 	@RequestMapping(value = "user/reserve")
-	public String reserve(HttpServletRequest request) throws Exception {
+	public String reserve(@RequestParam(value = "ck") List<String> ck, HttpServletRequest request) throws Exception {
 		Random rand = new Random();
 		int rr = rand.nextInt(1000000) + 1;
 
 		/* int cnt = Integer.parseInt(request.getParameter("cnt")); */
-		int u = Integer.parseInt(request.getParameter("user"));
-		int m = Integer.parseInt(request.getParameter("movie"));
-		int s = Integer.parseInt(request.getParameter("schedule"));
+		String u = request.getParameter("user");
+		String mo = request.getParameter("movie");
+		String se = request.getParameter("schedule");
 		
-		String[] ck = request.getParameterValues("ck");
-		User user = userService.findById(u);
+		int us = Integer.parseInt(u);
+		int m = Integer.parseInt(mo);
+		int s = Integer.parseInt(se);
+
+		/* String[] ck = request.getParameterValues("ck"); */
+		User user = userService.findById(us);
 		Movie movie = movieService.findById(m);
 		Movie_schedule ms = mss.findById(s);
-
-		for (int i = 0; i < ck.length; ++i) {
-			Reserve r = new Reserve();
+		
+		Reserve r = new Reserve();
+		
+		for (String c : ck) {
 			r.setUser(user);
 			r.setMovie(movie);
 			r.setMs(ms);
 
 			r.setReservenum(date.getDate() + "-" + rr);
-			r.setRow(Integer.parseInt(ck[i].substring(1, 1)));
-			r.setCol(Integer.parseInt(ck[i].substring(5)));
+			r.setRownum(Integer.parseInt(c.substring(0, 1)));
+			r.setColnum(Integer.parseInt(c.substring(1)));
 
 			reserveService.save(r);
 		}
 
 		return "redirect:/";
+		// return "redirect:/user/mytickets";
 	}
 
 	/*

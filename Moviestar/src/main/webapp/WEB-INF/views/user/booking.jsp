@@ -24,8 +24,8 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap"
 	rel="stylesheet">
-<script>
-	function count_ck(obj) {
+<!-- <script>
+	/* function count_ck(obj) {
 		var chkbox = document.getElementsByName("ck");
 		var chkCnt = 0;
 		for (var i = 0; i < chkbox.length; i++) {
@@ -38,18 +38,20 @@
 			obj.checked = false;
 			return false;
 		}
-	}
-</script>
+	} */
+</script> -->
 <style>
 body {
 	font-family: 'Do Hyeon', sans-serif;
 }
-.title{
-	width:90%;
-	height:80px;
+
+.title {
+	width: 90%;
+	height: 80px;
 	text-align: center;
-	font-size:2em;
+	font-size: 2em;
 }
+
 .screen {
 	width: 90%;
 	height: 20px;
@@ -67,7 +69,30 @@ body {
 	width: 23px;
 	margin: 2;
 }
-/* input[type=checkbox] { display:none; } */
+
+.ck_img {
+	background: url('/images/seat.JPG');
+	height: 20px;
+	max-height: 100%;
+	width: 23px;
+	max-width: 100%;
+	margin: 2;
+}
+
+input[type="checkbox"]+label span {
+	display: inline-block;
+	width: 23px;
+	height: 20px;
+}
+
+input[type="checkbox"]:checked+label span {
+	background: url(/images/seatclick.JPG);
+}
+
+/* background:url('/images/seat.JPG') */
+input[type=checkbox] {
+	display: none;
+}
 </style>
 <title>티켓 예매하기 - 좌석선택</title>
 </head>
@@ -77,43 +102,80 @@ body {
 	<br>
 	<div class="container">
 		<div class="title">
-			<label style="font-size:1.5em;">${s.movie.title}</label>
-			<label>극장: ${s.st.name}</label>
-			<span><fmt:formatDate value="${s.startrunning }" pattern="yy.MM.dd hh:mm" /></span>
-			<span></span>
+			<label style="font-size: 1.5em;">${s.movie.title}</label> <label>극장:
+				${s.st.name}</label> <span><fmt:formatDate value="${s.startrunning }"
+					pattern="yy.MM.dd hh:mm" /></span> <span></span>
 		</div>
-		<form action="/user/reserve" method="post">
+		<form action="/user/reserve" method="post" autocomplete="off">
 			<!--  action="/user/reserve" method="post" -->
 			<sec:authentication property="user.id" var="currentid" />
-			<input type="hidden" id="user" name="user" value="${currentid}" >
-			<input type="hidden" id="movie" name="movie" value="${param.movie}">
+			<input type="hidden" name="user" value="${currentid}"> <input
+				type="hidden" name="movie" value="${param.movie}">
 			<%-- <input type="hidden" id="stheater" name="stheater"
-				value="${param.stheater}"> --%> <input type="hidden"
-				id="schedule" name="schedule" value="${param.schedule}"> ticket :
-			<select name="cnt" style="width: 50px; height: 20px;">
-				<option value="0" selected disabled >0</option>
+				value="${param.stheater}"> --%>
+			<input type="hidden" name="schedule" value="${param.schedule}">
+			ticket : <select name="cnt" id="cnt"
+				style="width: 50px; height: 20px;">
+				<!-- onChange="SelectValue(this.value)" -->
+				<option value="0" selected disabled>0</option>
 				<c:forEach var="i" begin="1" end="6" step="1">
-					<option value="${i}" >${i}</option>
+					<option value="${i}">${i}</option>
 				</c:forEach>
 			</select>
+			<script>
+				/* function SelectValue(value) {
+					alert(value);
+				} */
+				function count_ck(obj) {
+					var target = document.getElementById("cnt");
+					var rcnt = target.options[target.selectedIndex].value;
+					var chkbox = document.getElementsByName("ck");
+					var chkCnt = 0;
+					for (var i = 0; i < chkbox.length; i++) {
+						if (chkbox[i].checked) {
+							chkCnt++;
+						}
+					}
+					if (rcnt == 0) {
+						alert("인원을 선택하세용>_<;;");
+						obj.checked = false;
+						return false;
+					} else if (chkCnt > rcnt && rcnt > 0) {
+						alert("인원을 증가시키세요=_=;;");
+						obj.checked = false;
+						return false;
+					}
+				}
+			</script>
 
 			<div class="screen">
 				<span style="font-size: 2em">SCREEN</span>
 			</div>
+
 			<div class="seat">
 				<c:forEach var="r" begin="1" end="${seat.row}">
 					<c:forEach var="c" begin="1" end="${seat.col }">
-						<input type="checkbox" value="${r}/${c}" id="ck${r}_${c}"
-							name="ck" onClick="count_ck(this);">
-						<label for="ck${r}_${c}"><img src="/images/seat.jpg"
-							class="seatimg" title="${r}행 ${c}열"></label>
+						<%-- 
+						<c:forEach var="rr" items="${reserve}">
+							<c:if test="${rr.colnum != c || rr.rownum != r}"> --%>
+						<input type="checkbox" value="${r}${c}" id="ck${r}${c}" name="ck"
+							onClick="count_ck(this);">
+						<label for="ck${r}${c}" class="ck_img"> <span title="${r}행 ${c}열"></span>
+						</label>
+						<%-- <img src="/images/seat.jpg"
+							class="seatimg" title="${r}행 ${c}열"> --%>
+						<%-- </c:if>
+						</c:forEach> --%>
 					</c:forEach>
 					<br>
 				</c:forEach>
 			</div>
 
-			<button class="btn btn-secondary reserve_btn"
-				style="float: right; margin-right: 100px;">예매하기</button>
+			<button type="submit" onclick="return confirm('예매 하시겠습니까?')"
+				class="btn btn-secondary">
+				<i class="glyphicon glyphicon-ok" style="margin-right: 2px;"></i>
+				예매하기
+			</button>
 		</form>
 	</div>
 	<%-- <img src="/images/seat.jpg" class="seatimg" title="${r}행 ${c}열"> --%>

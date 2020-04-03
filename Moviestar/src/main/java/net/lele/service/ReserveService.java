@@ -1,6 +1,7 @@
 package net.lele.service;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,12 +20,16 @@ public class ReserveService {
 
 		re.setMovie(r.getMovie());
 		re.setReservenum(r.getReservenum());
-		re.setRow(r.getRow());
-		re.setCol(r.getCol());
+		re.setRownum(r.getRownum());
+		re.setColnum(r.getColnum());
 		re.setMs(r.getMs());
 		re.setUser(r.getUser());
 		re.setReservetime(timestamp);
 		
 		reserveRepository.save(re);
+	}
+	
+	public List<Reserve> findByMsId(int id){
+		return reserveRepository.findByMsId(id);
 	}
 }
