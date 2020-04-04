@@ -93,6 +93,11 @@ input[type="checkbox"]:checked+label span {
 input[type=checkbox] {
 	display: none;
 }
+
+.seatimg {
+	width: 23px;
+	height: 20px;
+}
 </style>
 <title>티켓 예매하기 - 좌석선택</title>
 </head>
@@ -147,21 +152,30 @@ input[type=checkbox] {
 					}
 				}
 			</script>
-
+			<div align="right" style="padding-right: 40px">
+				<img src="/images/seatno.JPG" width="20px"> 예약불가 <img
+					src="/images/seat.JPG" width="20px"> 선택가능 <img
+					src="/images/seatclick.JPG" width="20px"> 선택상태
+			</div>
 			<div class="screen">
 				<span style="font-size: 2em">SCREEN</span>
 			</div>
-
+			<%-- <c:set var="ro" items="${reserve.rownum}"></c:set>
+			<c:set var="co" items="${reserve.colnum}"></c:set> --%>
 			<div class="seat">
 				<c:forEach var="r" begin="1" end="${seat.row}">
 					<c:forEach var="c" begin="1" end="${seat.col }">
 						<%-- 
 						<c:forEach var="rr" items="${reserve}">
 							<c:if test="${rr.colnum != c || rr.rownum != r}"> --%>
+
+
 						<input type="checkbox" value="${r}${c}" id="ck${r}${c}" name="ck"
 							onClick="count_ck(this);">
-						<label for="ck${r}${c}" class="ck_img"> <span title="${r}행 ${c}열"></span>
+						<label for="ck${r}${c}" class="ck_img"> <span
+							title="${r}행 ${c}열"></span>
 						</label>
+
 						<%-- <img src="/images/seat.jpg"
 							class="seatimg" title="${r}행 ${c}열"> --%>
 						<%-- </c:if>
@@ -171,8 +185,10 @@ input[type=checkbox] {
 				</c:forEach>
 			</div>
 
+			<div class="total"></div>
+
 			<button type="submit" onclick="return confirm('예매 하시겠습니까?')"
-				class="btn btn-secondary">
+				class="btn btn-secondary" style="float: right; margin-right: 100px;">
 				<i class="glyphicon glyphicon-ok" style="margin-right: 2px;"></i>
 				예매하기
 			</button>

@@ -8,4 +8,6 @@ import net.lele.domain.Reserve;
 
 public interface ReserveRepository extends JpaRepository<Reserve, Integer> {
 	List<Reserve> findByMsId(int id);
+	Reserve findById(int id);
+	List<Reserve> findByUserUserIdOrderByIdDesc(String userid);
 }

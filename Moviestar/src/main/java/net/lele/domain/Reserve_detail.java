@@ -1,7 +1,5 @@
 package net.lele.domain;
 
-import java.sql.Timestamp;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,24 +11,15 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Reserve {
+public class Reserve_detail {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "movieid")
-	Movie movie;
+	@JoinColumn(name = "reserveid")
+	Reserve reserve;
 	
-	String reservenum;
-
-	@ManyToOne
-	@JoinColumn(name = "mscheduleid")
-	Movie_schedule ms;
-
-	@ManyToOne
-	@JoinColumn(name = "userid")
-	User user;
-	
-	Timestamp reservetime;
+	int rownum;
+	int colnum;
 }

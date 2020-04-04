@@ -14,22 +14,29 @@ public class ReserveService {
 	@Autowired
 	ReserveRepository reserveRepository;
 	
-	public void save(Reserve r) {
+	public int save(Reserve r) {
 		Reserve re = new Reserve();
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
 		re.setMovie(r.getMovie());
 		re.setReservenum(r.getReservenum());
-		re.setRownum(r.getRownum());
-		re.setColnum(r.getColnum());
 		re.setMs(r.getMs());
 		re.setUser(r.getUser());
 		re.setReservetime(timestamp);
 		
 		reserveRepository.save(re);
+		return re.getId();
 	}
 	
 	public List<Reserve> findByMsId(int id){
 		return reserveRepository.findByMsId(id);
+	}
+	
+	public List<Reserve> findByUserUserIdOrderByIdDesc(String userId){
+		return reserveRepository.findByUserUserIdOrderByIdDesc(userId);
+	}
+	
+	public Reserve findById(int id) {
+		return reserveRepository.findById(id);
 	}
 }

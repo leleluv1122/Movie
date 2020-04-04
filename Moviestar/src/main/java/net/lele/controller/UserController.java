@@ -6,8 +6,10 @@ import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,12 +17,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import net.lele.domain.Movie;
 import net.lele.domain.Movie_schedule;
 import net.lele.domain.Reserve;
+import net.lele.domain.Reserve_detail;
 import net.lele.domain.State_theater;
 import net.lele.domain.User;
 import net.lele.service.MovieService;
 import net.lele.service.Movie_imageService;
 import net.lele.service.Movie_scheduleService;
 import net.lele.service.ReserveService;
+import net.lele.service.Reserve_detailService;
 import net.lele.service.SeatService;
 import net.lele.service.StateService;
 import net.lele.service.State_theaterService;
@@ -45,7 +49,9 @@ public class UserController {
 	SeatService seatService;
 	@Autowired
 	ReserveService reserveService;
-	
+	@Autowired
+	Reserve_detailService reserve_detailService;
+
 	DateUtil date = new DateUtil();
 
 	@RequestMapping("user/tmovie")
@@ -79,7 +85,7 @@ public class UserController {
 	public String booking(@RequestParam("movie") String movie, @RequestParam("state") int state,
 			@RequestParam("stheater") int stheater, @RequestParam("schedule") int schedule, Model model) {
 		model.addAttribute("seat", seatService.findByStId(stheater));
-		/* model.addAttribute("reserve", reserveService.findByMsId(schedule)); */
+		model.addAttribute("reserve", reserveService.findByMsId(schedule));
 		model.addAttribute("s", mss.findById(schedule));
 		return "user/booking";
 	}
@@ -93,7 +99,7 @@ public class UserController {
 		String u = request.getParameter("user");
 		String mo = request.getParameter("movie");
 		String se = request.getParameter("schedule");
-		
+
 		int us = Integer.parseInt(u);
 		int m = Integer.parseInt(mo);
 		int s = Integer.parseInt(se);
@@ -102,23 +108,41 @@ public class UserController {
 		User user = userService.findById(us);
 		Movie movie = movieService.findById(m);
 		Movie_schedule ms = mss.findById(s);
-		
+
 		Reserve r = new Reserve();
+		r.setUser(user);
+		r.setMovie(movie);
+		r.setMs(ms);
+		r.setReservenum(date.getDate() + "-" + rr);
+		int rere = reserveService.save(r);
+		Reserve rrr = new Reserve();
+		rrr.setId(rere);
 		
 		for (String c : ck) {
-			r.setUser(user);
-			r.setMovie(movie);
-			r.setMs(ms);
-
-			r.setReservenum(date.getDate() + "-" + rr);
-			r.setRownum(Integer.parseInt(c.substring(0, 1)));
-			r.setColnum(Integer.parseInt(c.substring(1)));
-
-			reserveService.save(r);
+			Reserve_detail rd = new Reserve_detail();
+			rd.setRownum(Integer.parseInt(c.substring(0, 1)));
+			rd.setColnum(Integer.parseInt(c.substring(1)));
+			rd.setReserve(rrr);
+			
+			reserve_detailService.save(rd);
 		}
 
-		return "redirect:/";
-		// return "redirect:/user/mytickets";
+		return "redirect:/user/mytickets";
+	}
+
+	@RequestMapping("user/mytickets")
+	public String mytickets(Model model) throws Exception {
+		String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+		model.addAttribute("reserve", reserveService.findByUserUserIdOrderByIdDesc(userId));
+
+		return "user/mytickets";
+	}
+	
+	@RequestMapping("user/ticketdetail/{id}")
+	public String ticketdetail(@PathVariable("id") int id, Model model) {
+		model.addAttribute("reserve", reserveService.findById(id));
+		model.addAttribute("reserve_detail", reserve_detailService.findByReserveId(id));
+		return "user/ticketdetail";
 	}
 
 	/*

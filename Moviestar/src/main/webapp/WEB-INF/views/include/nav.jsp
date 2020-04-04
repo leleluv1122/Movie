@@ -41,7 +41,7 @@
 					style="color: gray; font-size: 1.5em; font-family: 'Do Hyeon', sans-serif; margin-left: 10px;">회원가입</a>
 			</sec:authorize>
 			<sec:authorize access="authenticated">
-				<a href="#"
+				<a href="/user/mytickets"
 					style="color: gray; font-size: 1.5em; font-family: 'Do Hyeon', sans-serif; margin-left: 10px;">myMS</a>
 				<a href="/user/logout_processing"
 					style="color: gray; font-size: 1.5em; font-family: 'Do Hyeon', sans-serif; margin-left: 10px;">로그아웃</a>
